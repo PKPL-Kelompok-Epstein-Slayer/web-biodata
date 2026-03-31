@@ -34,7 +34,7 @@ jobs:
     # 4. Menjalankan Flake8 untuk mengecek standar penulisan kode
     - name: Run Linter (Flake8)
       run: |
-        flake8 . --exclude=env,venv,migrations --max-line-length=88 --extend-ignore=E302,W292
+        flake8 . --exclude=env,venv,migrations --max-line-length=88
 
     # 5. Menjalankan Pytest dan mengecek coverage (dengan variabel environment dummy)
     - name: Run Tests and Coverage
