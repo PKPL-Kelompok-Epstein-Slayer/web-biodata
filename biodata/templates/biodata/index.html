@@ -1,0 +1,22 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Login Biodata</title>
+</head>
+<body>
+    <h2>Uji Coba Login Kelompok</h2>
+
+    {% if user.is_authenticated %}
+        <p>🎉 Berhasil! Halo, {{ user.email }}</p>
+        <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <p>Silakan login untuk masuk ke sistem.</p>
+        <a href="{% provider_login_url 'google' %}">Login with Google</a>
+    {% endif %}
+
+</body>
+</html>
