@@ -1,0 +1,47 @@
+name: Django CI Pipeline
+
+# CI akan berjalan secara otomatis setiap kali ada 'push' atau 'pull request' ke branch main
+on:
+  push:
+    branches: [ "main", "staging" ]
+  pull_request:
+    branches: [ "main", "staging" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Mengambil kode dari repository GitHub
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 2. Menyiapkan Python versi 3.12 (Sesuai dengan yang kompatibel dengan Django 6.0.3)
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: 'pip' # Mempercepat instalasi dengan caching
+
+    # 3. Menginstall dependencies dari requirements.txt beserta linter & tester
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        # Berjaga-jaga jika flake8 dan pytest belum ada di requirements.txt
+        pip install flake8 pytest pytest-django pytest-cov
+
+    # 4. Menjalankan Flake8 untuk mengecek standar penulisan kode
+    - name: Run Linter (Flake8)
+      run: |
+        flake8 . --exclude=env,venv,migrations --max-line-length=88 --extend-ignore=E302,W292
+
+    # 5. Menjalankan Pytest dan mengecek coverage (dengan variabel environment dummy)
+    - name: Run Tests and Coverage
+      env:
+        # Mengisi environment variables dengan nilai dummy agar Django tidak error saat dites
+        SECRET_KEY: "dummy-secret-key-untuk-testing-saja"
+        GOOGLE_CLIENT_ID: "dummy-client-id"
+        GOOGLE_CLIENT_SECRET: "dummy-client-secret"
+      run: |
+        pytest --cov=. --cov-report=xml
