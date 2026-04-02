@@ -1,7 +1,16 @@
 from django.test import TestCase
+from django.urls import reverse
 
 
-class ContohTest(TestCase):
-    def test_matematika_dasar(self):
-        # Tes super simpel agar pytest tidak kosong
-        self.assertEqual(1 + 1, 2)
+class IndexViewTest(TestCase):
+
+    def test_halaman_index_bisa_dibuka(self):
+        # 1. Pura-puranya kita buka URL halaman utama ('index')
+        url = reverse("index")
+        response = self.client.get(url)
+
+        # 2. Pastikan webnya merespons dengan sukses (Status 200 OK)
+        self.assertEqual(response.status_code, 200)
+
+        # 3. Pastikan template yang dipakai benar-benar 'biodata/index.html'
+        self.assertTemplateUsed(response, "biodata/index.html")
