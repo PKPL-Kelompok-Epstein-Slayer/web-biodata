@@ -2,21 +2,67 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <meta charset="UTF-8">
     <title>Login Biodata</title>
+    <style>
+        /* Styling default (Light Mode) */
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            font-family: sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Biar transisinya halus */
+        }
+
+        /* Styling untuk Dark Mode */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode a {
+            color: #bb86fc; /* Warna link disesuaikan biar kelihatan di dark mode */
+        }
+    </style>
 </head>
 <body>
     <h2>Uji Coba Login Kelompok</h2>
 
     {% if user.is_authenticated %}
         <p>🎉 Berhasil! Halo, {{ user.email }}</p>
+
+        <p>Doksli Rahasia</p>
+        {% if is_anggota %}
+            <button onclick="showPhoto()">Lihat Foto</button>
+            <div id="photo" style="display:none; margin-top: 10px;">
+                <!-- Foto akan ditampilkan di sini -->
+        {% else %}
+            <button onclick="showAlert()">Lihat Foto</button>
+            <div id="alert" style="display:none; color: red; margin-top: 10px;">
+                Maaf, Anda tidak memiliki akses untuk melihat foto ini.
+            </div style="display:none; margin-top: 10px;">
+        {% endif %}
+
         <form method="post" action="{% url 'account_logout' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>
-        </form>
+        </form>    
     {% else %}
         <p>Silakan login untuk masuk ke sistem.</p>
         <a href="{% provider_login_url 'google' %}">Login with Google</a>
     {% endif %}
-
 </body>
+
+<script>
+    function showPhoto() {
+        // Ganti dengan URL foto yang ingin ditampilkan
+        const photoUrl = 'https://i.pinimg.com/736x/a7/0f/45/a70f450b4d3292b02fc9fa9cc7bdbcd5.jpg';
+        const photoDiv = document.getElementById('photo');
+        photoDiv.innerHTML = `<img src="${photoUrl}" alt="Foto Rahasia" style="max-width: 100%; height: auto;">`;
+        photoDiv.style.display = 'block';
+    }
+
+    function showAlert() {
+        document.getElementById('alert').style.display = 'block';
+    }
+</script>
 </html>
