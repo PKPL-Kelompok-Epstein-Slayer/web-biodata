@@ -3,66 +3,401 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Login Biodata</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biodata — Kelompok</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* Styling default (Light Mode) */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a0a;
+            --white: #f5f5f3;
+            --gray-100: #ebebea;
+            --gray-300: #c8c8c6;
+            --gray-500: #8a8a87;
+            --gray-700: #4a4a48;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
         body {
-            background-color: #ffffff;
-            color: #000000;
-            font-family: sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease; /* Biar transisinya halus */
+            background-color: var(--white);
+            color: var(--black);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Styling untuk Dark Mode */
-        body.dark-mode {
-            background-color: #121212;
-            color: #e0e0e0;
+        /* ── Header Bar ── */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 48px;
+            border-bottom: 1px solid var(--black);
         }
 
-        body.dark-mode a {
-            color: #bb86fc; /* Warna link disesuaikan biar kelihatan di dark mode */
+        .header-logo {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--black);
+        }
+
+        .header-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--gray-500);
+            letter-spacing: 0.1em;
+        }
+
+        /* ── Main Layout ── */
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: calc(100vh - 62px);
+        }
+
+        /* ── Left Panel ── */
+        .panel-left {
+            padding: 64px 48px;
+            border-right: 1px solid var(--black);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(42px, 5vw, 72px);
+            font-weight: 400;
+            line-height: 1.0;
+            letter-spacing: -0.02em;
+            color: var(--black);
+        }
+
+        h1 em {
+            font-style: italic;
+            color: var(--gray-500);
+        }
+
+        .tagline {
+            margin-top: 28px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--gray-700);
+            max-width: 340px;
+        }
+
+        .divider-thin {
+            width: 40px;
+            height: 1px;
+            background: var(--black);
+            margin: 32px 0;
+        }
+
+        /* ── Right Panel ── */
+        .panel-right {
+            padding: 64px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* ── Auth Box (Logged In) ── */
+        .auth-welcome {
+            margin-bottom: 48px;
+        }
+
+        .auth-welcome .label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+
+        .auth-welcome .user-email {
+            font-family: 'DM Serif Display', serif;
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        /* ── Secret Section ── */
+        .secret-block {
+            border: 1px solid var(--black);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .secret-block .block-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 16px;
+        }
+
+        .secret-block .block-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-block;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 14px 28px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--gray-700);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--black);
+            border: 1px solid var(--black);
+        }
+
+        .btn-outline:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--gray-500);
+            border: 1px solid var(--gray-300);
+            font-size: 10px;
+            padding: 10px 20px;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--black);
+            color: var(--black);
+        }
+
+        /* ── Photo Display ── */
+        #photo {
+            margin-top: 20px;
+            border: 1px solid var(--gray-300);
+            overflow: hidden;
+        }
+
+        #photo img {
+            display: block;
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.4s ease;
+        }
+
+        #photo img:hover {
+            filter: grayscale(0%);
+        }
+
+        /* ── Alert ── */
+        #alert {
+            padding: 16px 20px;
+            border: 1px solid var(--black);
+            background: var(--black);
+            color: var(--white);
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            margin-top: 16px;
+        }
+
+        /* ── Login Panel ── */
+        .login-content {
+            max-width: 340px;
+        }
+
+        .login-content .pre-title {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 20px;
+        }
+
+        .login-content h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 32px;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .login-content p {
+            font-size: 14px;
+            color: var(--gray-700);
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        /* ── Footer ── */
+        footer {
+            padding: 18px 48px;
+            border-top: 1px solid var(--gray-300);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-note {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--gray-500);
+            letter-spacing: 0.08em;
+        }
+
+        /* ── Decorative Number ── */
+        .panel-left .deco-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 120px;
+            color: var(--gray-100);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            header { padding: 16px 24px; }
+            main { grid-template-columns: 1fr; }
+            .panel-left {
+                padding: 40px 24px;
+                border-right: none;
+                border-bottom: 1px solid var(--black);
+            }
+            .panel-right { padding: 40px 24px; }
+            footer { padding: 16px 24px; }
+            .deco-number { display: none; }
         }
     </style>
 </head>
 <body>
-    <h2>Uji Coba Login Kelompok</h2>
 
-    {% if user.is_authenticated %}
-        <p>🎉 Berhasil! Halo, {{ user.email }}</p>
+    <header>
+        <span class="header-logo">Biodata — Kelompok</span>
+        <span class="header-tag">PKPL / 2026</span>
+    </header>
 
-        <p>Doksli Rahasia</p>
-        {% if is_anggota %}
-            <button onclick="showPhoto()">Lihat Foto</button>
-            <div id="photo" style="display:none; margin-top: 10px;">
-                <!-- Foto akan ditampilkan di sini -->
-        {% else %}
-            <button onclick="showAlert()">Lihat Foto</button>
-            <div id="alert" style="display:none; color: red; margin-top: 10px;">
-                Maaf, Anda tidak memiliki akses untuk melihat foto ini.
-            </div style="display:none; margin-top: 10px;">
-        {% endif %}
+    <main>
+        <!-- LEFT PANEL -->
+        <div class="panel-left">
+            <div>
+                <p class="eyebrow">Web Application</p>
+                <h1>Data<br><em>Diri</em><br>Kami</h1>
+                <p class="tagline">
+                    Platform manajemen biodata kelompok dengan sistem autentikasi Google yang aman dan terpusat.
+                </p>
+            </div>
+            <div class="deco-number">01</div>
+        </div>
 
-        <form method="post" action="{% url 'account_logout' %}">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>    
-    {% else %}
-        <p>Silakan login untuk masuk ke sistem.</p>
-        <a href="{% provider_login_url 'google' %}">Login with Google</a>
-    {% endif %}
+        <!-- RIGHT PANEL -->
+        <div class="panel-right">
+
+            {% if user.is_authenticated %}
+
+                <div class="auth-welcome">
+                    <p class="label">Masuk sebagai</p>
+                    <p class="user-email">{{ user.email }}</p>
+                </div>
+
+                <div class="secret-block">
+                    <p class="block-label">Konten Terbatas</p>
+                    <p class="block-title">Dokumen Rahasia</p>
+
+                    {% if is_anggota %}
+                        <button class="btn btn-primary" onclick="showPhoto()">Lihat Foto</button>
+                        <div id="photo" style="display:none;"></div>
+                    {% else %}
+                        <button class="btn btn-outline" onclick="showAlert()">Lihat Foto</button>
+                        <div id="alert" style="display:none;">
+                            ✕ &nbsp; Akses ditolak — Anda bukan anggota kelompok.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-ghost">Keluar dari Sistem</button>
+                </form>
+
+            {% else %}
+
+                <div class="login-content">
+                    <p class="pre-title">Selamat Datang</p>
+                    <h2>Masuk untuk<br>melanjutkan.</h2>
+                    <p>Gunakan akun Google Anda untuk mengakses platform biodata kelompok secara aman.</p>
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-primary">
+                        Lanjutkan dengan Google →
+                    </a>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </main>
+
+    <footer>
+        <span class="footer-note">© 2026 Kelompok Epstein Slayer — PKPL</span>
+        <span class="footer-note">Django · Allauth · Google OAuth</span>
+    </footer>
+
+    <script>
+        function showPhoto() {
+            const photoUrl = 'https://i.pinimg.com/736x/a7/0f/45/a70f450b4d3292b02fc9fa9cc7bdbcd5.jpg';
+            const photoDiv = document.getElementById('photo');
+            photoDiv.innerHTML = `<img src="${photoUrl}" alt="Foto Rahasia">`;
+            photoDiv.style.display = 'block';
+        }
+
+        function showAlert() {
+            document.getElementById('alert').style.display = 'block';
+        }
+    </script>
 </body>
-
-<script>
-    function showPhoto() {
-        // Ganti dengan URL foto yang ingin ditampilkan
-        const photoUrl = 'https://i.pinimg.com/736x/a7/0f/45/a70f450b4d3292b02fc9fa9cc7bdbcd5.jpg';
-        const photoDiv = document.getElementById('photo');
-        photoDiv.innerHTML = `<img src="${photoUrl}" alt="Foto Rahasia" style="max-width: 100%; height: auto;">`;
-        photoDiv.style.display = 'block';
-    }
-
-    function showAlert() {
-        document.getElementById('alert').style.display = 'block';
-    }
-</script>
 </html>
