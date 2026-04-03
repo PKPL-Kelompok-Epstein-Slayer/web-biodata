@@ -508,58 +508,22 @@
                 </p>
                 <div class="divider-thin"></div>
 
-                {% if user.is_authenticated %}
-                    <!-- Identity Cards -->
-                    <p class="section-label">Anggota Kelompok</p>
-                    <div class="id-cards-list">
-                        <div class="id-card">
-                            <div class="avatar" style="overflow: hidden; background: none;">
-                                <img src="https://i.pinimg.com/736x/70/ca/57/70ca570cd149c9ed7ab9650d262da292.jpg" alt="Foto Bisma" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <div class="id-info">
-                                <span class="id-name">Bisma Zharfan SW</span>
-                                <span class="id-npm">2406355136</span>
-                            </div>
-                        </div>
-
-                        <div class="id-card">
-                            <div class="avatar" style="overflow: hidden; background: none;">
-                                <img src="https://i.pinimg.com/736x/0f/21/c9/0f21c9b4c7080cc5e07ce403c1c48a80.jpg" alt="Foto Rafi" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <div class="id-info">
-                                <span class="id-name">Muhammad Rafi Sugianto</span>
-                                <span class="id-npm">2406357135</span>
-                            </div>
-                        </div>
-
-                        <div class="id-card">
-                            <div class="avatar" style="overflow: hidden; background: none;">
-                                <img src="https://i.pinimg.com/736x/81/b0/6c/81b06cac3959af4d75d123038ed14f83.jpg" alt="Foto Muhathir" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <div class="id-info">
-                                <span class="id-name">Muhathir Muhammad Radian Oki</span>
-                                <span class="id-npm">2406361712</span>
-                            </div>
-                        </div>
-
-                        <div class="id-card">
-                            <div class="avatar" style="overflow: hidden; background: none;">
-                                <img src="https://i.pinimg.com/736x/58/6d/f5/586df57befe1acbdcdeabec3a172abf3.jpg" alt="Foto Refki" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <div class="id-info">
-                                <span class="id-name">Refki Septian</span>
-                                <span class="id-npm">2406397296</span>
-                            </div>
+                <!-- Identity Cards -->
+                <p class="section-label">Anggota Kelompok</p>
+                <div class="id-cards-list">
+                    {% for anggota in anggota_list %}
+                    <div class="id-card">
+                        <div class="avatar {{ anggota.warna }}">{{ anggota.inisial }}</div>
+                        <div class="id-info">
+                            <span class="id-name">{{ anggota.nama }}</span>
+                            <span class="id-npm">npm · {{ anggota.npm }}</span>
                         </div>
                     </div>
-                {% endif %}
+                    {% endfor %}
+                </div>
             </div>
-            
-            {% if user.is_authenticated %}
-                <div class="deco-number">01</div>
-            {% else %}
-                <div class="deco-number">00</div>
-            {% endif %}
+
+            <div class="deco-number">01</div>
         </div>
 
         <!-- RIGHT PANEL -->
@@ -630,12 +594,16 @@
             {% endif %}
 
         </div>
-        
     </main>
+
+    <footer>
+        <span class="footer-note">© 2026 Kelompok Epstein Slayer — PKPL</span>
+        <span class="footer-note">Django · Allauth · Google OAuth</span>
+    </footer>
 
     <script>
         function showPhoto() {
-            const photoUrl = 'https://i.pinimg.com/736x/e2/ea/f8/e2eaf8a9a53bb3313732ea8a1a8f60eb.jpg';
+            const photoUrl = 'https://i.pinimg.com/736x/a7/0f/45/a70f450b4d3292b02fc9fa9cc7bdbcd5.jpg';
             const photoDiv = document.getElementById('photo');
             photoDiv.innerHTML = `<img src="${photoUrl}" alt="Foto Rahasia">`;
             photoDiv.style.display = 'block';
@@ -645,6 +613,7 @@
             document.getElementById('alert').style.display = 'block';
         }
 
+        {% if is_anggota %}
         let dark = false;
         function toggleDark() {
             dark = !dark;
@@ -660,6 +629,7 @@
                 dmLabel.textContent = 'Aktifkan';
             }
         }
+        {% endif %}
     </script>
 </body>
 </html>
